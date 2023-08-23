@@ -4,3 +4,5 @@ import os
 DIRECTORIO_IMAGENES = '/imagenes'
 DIRECTORIO_IMAGENES_PERSONAJE = '/imagenes/personajes'
 IMAGENES_PERSONAJE = [imagen_personaje for imagen_personaje in os.listdir(DIRECTORIO_IMAGENES_PERSONAJE)]
+LIMITE_CLASES = 2
+NIVEL_PARA_ELEGIR_SEGUNDA_CLASE = 10
