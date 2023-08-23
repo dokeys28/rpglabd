@@ -1,0 +1,9 @@
+implementar elegir nombre en configuraciones
+
+definir estilo si es mago, melee, ranged
+
+para cada estilo definir una subcategoria
+
+desarrollar modo batalla por turnos
+
+personaje ranged empiece tirando piedras
