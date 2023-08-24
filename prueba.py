@@ -20,12 +20,17 @@ while True:
         imagen.correr(event)
     
     if imagen.gastando_energia:
-        imagen.energia -= 1
+        if imagen.energia >= 1:
+            imagen.energia -= 1
     
-    if imagen.energia == 1:
+    if imagen.energia == 0:
         imagen.cansado = True    
-
     pantalla.blit(imagen.animacion(),(0,0))
-        
+    print(f'''
+ENERGIA: {imagen.energia},
+CANSADO: {imagen.cansado},
+REGENERANDOSE: {imagen.regenerandose}
+FRAME RATE: {imagen.frame_rate}  
+          ''')
     pygame.display.flip()
     pygame.time.Clock().tick(60)

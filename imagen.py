@@ -20,6 +20,8 @@ class Imagen:
         self.energia = 100
         self.gastando_energia = False
         self.cansado = False
+        self.frame_rate_energia = 30
+        self.regenerandose = False
     
     def obtener_cantidad_de_imagenes(self) -> tuple:
         tamano = self.imagen.get_size()
@@ -46,17 +48,23 @@ class Imagen:
         else:
             self.frame = 0
         
-        return self.imagen_actual
-    
-    def gastar_energia(self):
-        if self.energia > 1:
-            self.gastando_energia = True
+        self.sumar_frame_rates()
+        self.regenerarse()
+        if self.cansado:
+            self.cansar()
+        
+        if self.energia < 100:
+            self.regenerandose = True
         else:
-            print('NO HAY ENERGIA')
+            self.regenerandose = False
+        
+        return self.imagen_actual
+
+    def gastar_energia(self):
+            self.gastando_energia = True
             
     def cansar(self):
-        if self.cansado:
-            self.frame_rate = 10
+        self.frame_rate = 10
         if self.energia > 50:
             self.cansado = False
 
@@ -71,7 +79,25 @@ class Imagen:
         
         if evento.type == pygame.KEYUP:
             if evento.key == pygame.K_SPACE:
+                self.gastando_energia = False
                 if not self.cansado:
                     self.frame_rate = VELOCIDAD_CAMINAR
-        print(self.energia)
         
+        
+    def sumar_frame_rates(self):
+        if self.frame_rate_energia < 30:
+            self.frame_rate_energia += 1
+        else:
+            self.frame_rate_energia = 0
+
+
+    def regenerarse(self):
+        if self.regenerandose:
+            if self.frame_rate_energia == 30 and self.energia < 100:
+                self.energia += 10
+            if self.energia > 100: 
+                self.energia = 100
+            return self.energia
+        
+        
+###CAMBIAR FRAME RATE DEVUELTA A 9
