@@ -17,8 +17,13 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-
+        imagen.correr(event)
     
+    if imagen.gastando_energia:
+        imagen.energia -= 1
+    
+    if imagen.energia == 1:
+        imagen.cansado = True    
 
     pantalla.blit(imagen.animacion(),(0,0))
         
