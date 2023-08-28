@@ -64,9 +64,10 @@ class Imagen:
             self.gastando_energia = True
             
     def cansar(self):
-        self.frame_rate = 10
+        self.frame_rate = VELOCIDAD_CANSADO
         if self.energia > 50:
             self.cansado = False
+            self.frame_rate = VELOCIDAD_CAMINAR
 
     
     def correr(self, evento):
@@ -99,5 +100,3 @@ class Imagen:
                 self.energia = 100
             return self.energia
         
-        
-###CAMBIAR FRAME RATE DEVUELTA A 9
