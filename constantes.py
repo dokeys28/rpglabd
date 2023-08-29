@@ -9,6 +9,11 @@ NIVEL_PARA_ELEGIR_SEGUNDA_CLASE = 10
 VELOCIDAD_CORRER = 2
 VELOCIDAD_CAMINAR = 9
 VELOCIDAD_CANSADO = 11
+ANIMACIONES_PERSONAJE = {'caminar':{'arriba':0, 'izquierda': 1, 'abajo':2, 'derecha': 3},
+                         'ataque':{'arriba':0, 'izquierda': 1, 'abajo':2, 'derecha': 3}}
+ANCHO_PERSONAJE = 64
+ALTO_PERSONAJE = 64
+
 
 if __name__ == "__main__":
     pass
