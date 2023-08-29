@@ -13,7 +13,11 @@ ANIMACIONES_PERSONAJE = {'caminar':{'arriba':0, 'izquierda': 1, 'abajo':2, 'dere
                          'ataque':{'arriba':0, 'izquierda': 1, 'abajo':2, 'derecha': 3}}
 ANCHO_PERSONAJE = 64
 ALTO_PERSONAJE = 64
-
+REGENERACION_ENERGIA = 10
+ENERGIA_MAXIMA = 500
+FRAME_RATE = 0
+VELOCIDAD_ENERGIA = 30
+VELOCIDAD_JUGADOR = 1
 
 if __name__ == "__main__":
     pass

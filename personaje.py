@@ -1,5 +1,6 @@
 import pygame
 from constantes import *
+from energia import Energia
 from imagen import Imagen
 
 class Personaje(pygame.sprite.Sprite):
@@ -11,20 +12,31 @@ class Personaje(pygame.sprite.Sprite):
         #para cada clase definir una subcategoria
         self.sub_categoria: str
         self.vida: int
+        #energia
+        self.energia = Energia(ENERGIA_MAXIMA, self)
         
         #posicion
-        self.x: int
-        self.y: int
-        self.posicion: list
-        self.direccion: tuple
+        self.posicion = pygame.math.Vector2()
+        self.x = self.posicion.x
+        self.y = self.posicion.y
+        self.direccion = [0,0]
         
+        #sprite
+        self.imagen = Imagen(pygame.image.load('./imagenes/personaje/caminar.png'),self)
         #estado
         self.estado = 'quieto'
         self.saltando = False
-        
-        #sprite
-        self.imagen = Imagen(pygame.image.load('./imagenes/personaje/caminar.png'))
-        
+        self.gastando_energia = False
+        self.cansado = False
+        self.regenerandose = False
+        self.caminando = False
+        self.camina_derecha = False
+        self.camina_izquierda = False
+        self.camina_arriba = False
+        self.camina_abajo = False
+        self.corriendo = False
+        self.velocidad = pygame.math.Vector2()
+              
         #imagenes
         self.imagenes: list
 
@@ -36,19 +48,20 @@ class Personaje(pygame.sprite.Sprite):
         
         #habilidades
         self.habilidades: list
+        self.dic_direccion = {
+        'arriba': [0,-1],
+        'abajo' :[0,1],
+        'derecha' : [1,0],
+        'izquierda' : [-1,0]}
+        self.dirigiendose = 'abajo'
         
                  
-        #
-        self.energia = 100
-        self.gastando_energia = False
-        self.cansado = False
-        self.regenerandose = False
-        self.corriendo = False
+        
         
     
     #cansar
     def cansar(self):
-        if self.energia > 50:
+        if self.energia.cantidad > 50:
             self.cansado = False
             self.frame_rate = VELOCIDAD_CAMINAR
     
@@ -56,37 +69,100 @@ class Personaje(pygame.sprite.Sprite):
     def actualizar(self):
         self.actualizar_posicion()
         self.imagen.actualizar()
+        self.actualizar_estados()
     
     def actualizar_estados(self):
-        if self.energia <= 1:
+        if self.energia.cantidad <= 1:
             self.cansado = True
-        if self.energia >50:
+        if self.energia.cantidad >ENERGIA_MAXIMA//2:
             self.cansado = False
-        if self.energia < 100:
+        if self.energia.cantidad < ENERGIA_MAXIMA:
             self.regenerandose = True
         
+        
+        #caminando
+        if self.camina_arriba:
+            self.arriba()
+            self.mover()
+        elif self.camina_abajo:
+            self.mover()
+            self.abajo()
+        elif self.camina_izquierda:
+            self.mover()
+            self.izquierda()
+        elif self.camina_derecha:
+            self.mover()
+            self.derecha()
+        else:
+            self.caminando = False
+            self.estado = 'quieto'
+            
+                
         #corriendo
         if self.corriendo:
-            if self.energia > 1 and not self.cansado:
+            self.correr()
+            if self.energia.cantidad > 1 and not self.cansado:
                 self.gastando_energia = True
             else:
                 self.corriendo = False
-    
-    
+        else:
+            self.velocidad = pygame.math.Vector2(0,0)
+            self.gastando_energia = False
+         
+        if self.estado == 'quieto':
+            self.direccion = pygame.math.Vector2(0,0)        
+            self.velocidad = pygame.math.Vector2(0,0)          
+        #gastar energia
+        if self.gastando_energia:
+            self.regenerandose = False
+            self.energia.gastar()
+
+        #regenerarse
+        if self.regenerandose:
+            self.gastando_energia = False
+            self.energia.regenerar()
     
     #actualiza posicion    
     def actualizar_posicion(self):
-        self.imagen.actualizar()
-        self.posicion = [self.x, self.y]
-        return self.posicion
+        self.posicion += (self.direccion + self.velocidad)
     
+           
+    #direccion
+    def mover(self):
+        self.caminando = True
+        self.estado = 'caminando'
+        
+     
+    def arriba(self):
+        self.direccion = self.dic_direccion['arriba']
+        self.dirigiendose = 'arriba'
+    def abajo(self):
+        self.direccion = self.dic_direccion['abajo']
+        self.dirigiendose = 'abajo'
+    def izquierda(self):
+        self.direccion = self.dic_direccion['izquierda']
+        self.dirigiendose = 'izquierda'
+    def derecha(self):
+        self.dirigiendose = 'derecha'
+        self.direccion = self.dic_direccion['derecha']
+
+    def correr(self):
+        self.estado = 'corriendo'
+        if self.caminando:
+            if self.dirigiendose == 'arriba':
+                self.velocidad = pygame.math.Vector2(0,-1)
+            if self.dirigiendose == 'abajo':
+                self.velocidad = pygame.math.Vector2(0,1)
+            if self.dirigiendose == 'derecha':
+                self.velocidad = pygame.math.Vector2(1,0)
+            if self.dirigiendose == 'izquierda':
+                self.velocidad = pygame.math.Vector2(-1,0)
+            
+
+
     ###debo implementar direccion
     #direccion
-    arriba = [0,-1]
-    abajo = [0,1]
-    derecha = [1,0]
-    izquierda = [-1,0]
-    
+
         
     #obtener atributos actualizados
     def obtener_rect(self):

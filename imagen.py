@@ -17,9 +17,9 @@ class Imagen:
         self.secuencia_de_imagenes, self.variacion_de_imagenes = self.cantidad_de_imagenes
         self.numero_imagen = 0
         self.frame = 0
-        self.frame_rate_energia = 30
+        self.frame_rate_energia = VELOCIDAD_ENERGIA
         self.sprite = pygame.Surface((ANCHO_PERSONAJE,ALTO_PERSONAJE))
-        self.rect = self.sprite.get_rect(topleft = (personaje.posicion))
+        self.rect = self.sprite.get_rect(topleft = (self.personaje.posicion))
     
     def obtener_cantidad_de_imagenes(self) -> tuple:
         tamano = self.imagen.get_size()
@@ -45,47 +45,42 @@ class Imagen:
         else:
             self.frame_rate_energia = 0
 
-
-    def regenerarse(self):
-            if self.frame_rate_energia == 30 and self.energia < 100:
-                self.energia += 10
-            if self.energia > 100: 
-                self.energia = 100
-                self.regenerandose = False
-            return self.energia
-    
-    def actualizar(self):
-        
-        #si no esta quieto entonces anima
-        if self.estado != 'quieto':
-            #cambiar imagen
-            if self.numero_imagen < self.secuencia_de_imagenes -1 :
-                if self.frame == self.frame_rate:
-                    self.numero_imagen += 1
-            else:
-                self.numero_imagen = 0
-            
         #actualiza frame
         if self.frame < self.frame_rate:
             self.frame += 1
         else:
             self.frame = 0
+            
+            
+    def actualizar(self):
         
-        self.sumar_frame_rates()
-        if self.regenerandose:
-            self.regenerarse()
+        #si no esta quieto entonces anima
+        if self.personaje.estado != 'quieto':
+            #ANIMACION
+            if self.numero_imagen < self.secuencia_de_imagenes -1 :
+                if self.frame == self.frame_rate:
+                    self.numero_imagen += 1
+            else:
+                self.numero_imagen = 0        
         
-        if self.personaje.corriendo:
-            self.numero_variacion = ANIMACIONES_PERSONAJE['caminar'][self.personaje.direccion]
-            self.frame_rate = VELOCIDAD_CORRER
-        else:
-            self.frame_rate = VELOCIDAD_CAMINAR        
         
-        if self.personaje.cansado:
+        if self.personaje.caminando:
+            self.numero_variacion = ANIMACIONES_PERSONAJE['caminar'][self.personaje.dirigiendose]
+            if not self.personaje.corriendo:
+                self.frame_rate = VELOCIDAD_CAMINAR        
+            else:
+                self.frame_rate = VELOCIDAD_CORRER
+            
+        
+        
+        elif self.personaje.cansado:
             self.frame_rate = VELOCIDAD_CANSADO
         else:
             self.frame_rate = VELOCIDAD_CAMINAR
+
+
         
+        self.sumar_frame_rates()
        
         
         self.sprite = self.animacion()

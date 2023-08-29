@@ -1,6 +1,5 @@
 import pygame
 
-from imagen import Imagen
 from personaje import Personaje
 
 
@@ -8,8 +7,6 @@ from personaje import Personaje
 pygame.init()
 pantalla = pygame.display.set_mode((600,600))
 pygame.display.set_caption('PRUEBAS RPG')
-#imagen = pygame.image.load('./imagenes/personaje/caminar.png')
-#imagen = Imagen(imagen)
 personaje = Personaje()
 while True:
     
@@ -20,19 +17,48 @@ while True:
             exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                personaje.corriendo = True
-            
+                if personaje.caminando:
+                    personaje.corriendo = True
+                
+            if event.key == pygame.K_UP:
+                personaje.camina_arriba = True
+
+                
+            if event.key == pygame.K_DOWN:
+                personaje.camina_abajo = True
+
+
+            if event.key == pygame.K_LEFT:
+                personaje.camina_izquierda = True
+
+
+            if event.key == pygame.K_RIGHT:
+                personaje.camina_derecha = True
+ 
+
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 personaje.corriendo = False
+                
+            if event.key == pygame.K_UP:
+                personaje.camina_arriba = False
+   
+                
+            if event.key == pygame.K_DOWN:
+                personaje.camina_abajo = False
+
+
+            if event.key == pygame.K_LEFT:
+                personaje.camina_izquierda = False
+
+
+            if event.key == pygame.K_RIGHT:
+                personaje.camina_derecha = False
+
             
-    
-    if imagen.gastando_energia:
-        if imagen.energia >= 1:
-            imagen.energia -= 1
-    
-    if imagen.energia == 0:
-        imagen.cansado = True    
-    pantalla.blit(imagen.sprite,imagen.posicion)
+    personaje.actualizar()
+
+    pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
     pygame.display.flip()
     pygame.time.Clock().tick(60)
