@@ -1,6 +1,6 @@
 import pygame
 from constantes import *
-
+from debug import debug
 from personaje import Personaje
 
 
@@ -16,7 +16,6 @@ for col in range(6):
         lis_mapa.append((mapa,(fil*128,col*128)))
 
 while True:
-    
     pantalla.fill((255,255,255))
     pantalla.blits([x for x in lis_mapa])
     for event in pygame.event.get():
@@ -67,5 +66,6 @@ while True:
             
     personaje.actualizar()
     pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
+    debug(personaje.velocidad, pantalla)
     pygame.display.flip()
     pygame.time.Clock().tick(60)
