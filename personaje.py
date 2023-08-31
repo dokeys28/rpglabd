@@ -19,7 +19,7 @@ class Personaje(pygame.sprite.Sprite):
         self.posicion = pygame.math.Vector2()
         self.x = self.posicion.x
         self.y = self.posicion.y
-        self.direccion = [0,0]
+        self.direccion = [0,0] #corregir realmente no es 0,0
         
         #sprite
         self.imagen = Imagen(pygame.image.load('./imagenes/personaje/caminar.png'),self)
@@ -63,7 +63,7 @@ class Personaje(pygame.sprite.Sprite):
     def cansar(self):
         if self.energia.cantidad > 50:
             self.cansado = False
-            self.frame_rate = VELOCIDAD_CAMINAR
+            self.frame_rate = FRAME_RATE_CAMINAR
     
     #actualizaciones
     def actualizar(self):
@@ -126,7 +126,7 @@ class Personaje(pygame.sprite.Sprite):
     
     #actualiza posicion    
     def actualizar_posicion(self):
-        self.posicion += (self.direccion + self.velocidad)
+        self.posicion += (self.direccion + self.velocidad )* K_VELOCIDAD
     
            
     #direccion
@@ -152,13 +152,13 @@ class Personaje(pygame.sprite.Sprite):
         self.estado = 'corriendo'
         if self.caminando:
             if self.dirigiendose == 'arriba':
-                self.velocidad = pygame.math.Vector2(0,-1)
+                self.velocidad = pygame.math.Vector2(0, VELOCIDAD_JUGADOR * -1)
             if self.dirigiendose == 'abajo':
-                self.velocidad = pygame.math.Vector2(0,1)
+                self.velocidad = pygame.math.Vector2(0, VELOCIDAD_JUGADOR)
             if self.dirigiendose == 'derecha':
-                self.velocidad = pygame.math.Vector2(1,0)
+                self.velocidad = pygame.math.Vector2(VELOCIDAD_JUGADOR, 0)
             if self.dirigiendose == 'izquierda':
-                self.velocidad = pygame.math.Vector2(-1,0)
+                self.velocidad = pygame.math.Vector2(VELOCIDAD_JUGADOR * -1, 0)
             
 
 

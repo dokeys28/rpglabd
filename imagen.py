@@ -8,7 +8,7 @@ class Imagen:
         self.imagen = imagen
         self.personaje = personaje
         #define cada cuantos frames se refresca la imagen
-        self.frame_rate = VELOCIDAD_CAMINAR
+        self.frame_rate = FRAME_RATE_CAMINAR
         self.ancho_de_sprites = ANCHO_PERSONAJE
         self.alto_de_sprites = ALTO_PERSONAJE
         self.numero_variacion = ANIMACIONES_PERSONAJE['caminar']['abajo']
@@ -17,7 +17,7 @@ class Imagen:
         self.secuencia_de_imagenes, self.variacion_de_imagenes = self.cantidad_de_imagenes
         self.numero_imagen = 0
         self.frame = 0
-        self.frame_rate_energia = VELOCIDAD_ENERGIA
+        self.frame_rate_energia = FRAME_RATE_ENERGIA
         self.sprite = pygame.Surface((ANCHO_PERSONAJE,ALTO_PERSONAJE))
         self.rect = self.sprite.get_rect(topleft = (self.personaje.posicion))
     
@@ -67,16 +67,16 @@ class Imagen:
         if self.personaje.caminando:
             self.numero_variacion = ANIMACIONES_PERSONAJE['caminar'][self.personaje.dirigiendose]
             if not self.personaje.corriendo:
-                self.frame_rate = VELOCIDAD_CAMINAR        
+                self.frame_rate = FRAME_RATE_CAMINAR        
             else:
-                self.frame_rate = VELOCIDAD_CORRER
+                self.frame_rate = FRAME_RATE_CORRER
             
         
         
         elif self.personaje.cansado:
-            self.frame_rate = VELOCIDAD_CANSADO
+            self.frame_rate = FRAME_RATE_CANSADO
         else:
-            self.frame_rate = VELOCIDAD_CAMINAR
+            self.frame_rate = FRAME_RATE_CAMINAR
 
 
         

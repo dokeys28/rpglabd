@@ -9,10 +9,16 @@ pygame.init()
 pantalla = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
 pygame.display.set_caption('PRUEBAS RPG')
 personaje = Personaje()
+mapa = pygame.image.load('./imagenes/128x128/Tile/Tile_20-128x128.png')
+lis_mapa = []
+for col in range(6):
+    for fil in range(10):    
+        lis_mapa.append((mapa,(fil*128,col*128)))
+
 while True:
     
     pantalla.fill((255,255,255))
-
+    pantalla.blits([x for x in lis_mapa])
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
