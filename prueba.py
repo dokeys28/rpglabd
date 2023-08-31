@@ -1,16 +1,18 @@
 import pygame
+from constantes import *
 
 from personaje import Personaje
 
 
 
 pygame.init()
-pantalla = pygame.display.set_mode((600,600))
+pantalla = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
 pygame.display.set_caption('PRUEBAS RPG')
 personaje = Personaje()
 while True:
     
     pantalla.fill((255,255,255))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -58,7 +60,6 @@ while True:
 
             
     personaje.actualizar()
-
     pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
     pygame.display.flip()
     pygame.time.Clock().tick(60)

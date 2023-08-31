@@ -54,7 +54,7 @@ class Personaje(pygame.sprite.Sprite):
         'derecha' : [1,0],
         'izquierda' : [-1,0]}
         self.dirigiendose = 'abajo'
-        
+
                  
         
         
@@ -111,7 +111,9 @@ class Personaje(pygame.sprite.Sprite):
          
         if self.estado == 'quieto':
             self.direccion = pygame.math.Vector2(0,0)        
-            self.velocidad = pygame.math.Vector2(0,0)          
+            self.velocidad = pygame.math.Vector2(0,0)
+            self.imagen.numero_imagen = 0
+                      
         #gastar energia
         if self.gastando_energia:
             self.regenerandose = False
