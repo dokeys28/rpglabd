@@ -1,6 +1,7 @@
 import pygame
 from constantes import *
-from energia import Energia
+from interfaz import Barra
+from vitalidad import Energia, Vida
 from imagen import Imagen
 
 class Personaje(pygame.sprite.Sprite):
@@ -11,10 +12,18 @@ class Personaje(pygame.sprite.Sprite):
         self.clase: str
         #para cada clase definir una subcategoria
         self.sub_categoria: str
-        self.vida: int
+        #vida
+        self.vida = Vida(VIDA_MAXIMA, self)
+        barra_vida = Barra(self.vida, (0, POSICION_BARRA_VIDA))
         #energia
         self.energia = Energia(ENERGIA_MAXIMA, self)
+        barra_energia = Barra(self.energia, (0, POSICION_BARRA_ENERGIA))
         
+        #barras
+        self.barras_vitalidad = [barra_vida, barra_energia]
+        
+        
+         
         #posicion
         self.posicion = pygame.math.Vector2()
         self.x = self.posicion.x
@@ -70,6 +79,7 @@ class Personaje(pygame.sprite.Sprite):
         self.actualizar_posicion()
         self.imagen.actualizar()
         self.actualizar_estados()
+        
     
     def actualizar_estados(self):
         if self.energia.cantidad <= 1:
@@ -82,15 +92,19 @@ class Personaje(pygame.sprite.Sprite):
         
         #caminando
         if self.camina_arriba:
+            self.caminando = True
             self.arriba()
             self.mover()
         elif self.camina_abajo:
+            self.caminando = True
             self.mover()
             self.abajo()
         elif self.camina_izquierda:
+            self.caminando = True
             self.mover()
             self.izquierda()
         elif self.camina_derecha:
+            self.caminando = True
             self.mover()
             self.derecha()
         else:
@@ -149,8 +163,8 @@ class Personaje(pygame.sprite.Sprite):
         self.direccion = self.dic_direccion['derecha']
 
     def correr(self):
-        self.estado = 'corriendo'
         if self.caminando:
+            self.estado = 'corriendo'
             if self.dirigiendose == 'arriba':
                 self.velocidad = pygame.math.Vector2(0, VELOCIDAD_JUGADOR * -1)
             if self.dirigiendose == 'abajo':

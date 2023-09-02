@@ -1,6 +1,7 @@
 import pygame
 from constantes import *
 from debug import debug
+from interfaz import Interfaz
 from personaje import Personaje
 
 
@@ -10,6 +11,7 @@ pantalla = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
 pygame.display.set_caption('PRUEBAS RPG')
 personaje = Personaje()
 mapa = pygame.image.load('./imagenes/128x128/Tile/Tile_20-128x128.png')
+
 lis_mapa = []
 for col in range(6):
     for fil in range(10):    
@@ -63,9 +65,10 @@ while True:
             if event.key == pygame.K_RIGHT:
                 personaje.camina_derecha = False
 
-            
+
     personaje.actualizar()
     pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
-    debug(personaje.velocidad, pantalla)
+    Interfaz(personaje.barras_vitalidad).actualizar_barras()
+    debug(pantalla)
     pygame.display.flip()
     pygame.time.Clock().tick(60)
