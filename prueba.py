@@ -6,7 +6,7 @@ from inventario import Inventario
 from personaje import Personaje
 
 
-
+                    
 pygame.init()
 pantalla = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
 pygame.display.set_caption('PRUEBAS RPG')
@@ -14,6 +14,7 @@ personaje = Personaje()
 mapa = pygame.image.load('./imagenes/128x128/Tile/Tile_20-128x128.png')
 inventario = Inventario()
 lis_mapa = []
+cuadro_x_labo = ''
 for col in range(6):
     for fil in range(10):    
         lis_mapa.append((mapa,(fil*128,col*128)))
@@ -65,12 +66,20 @@ while True:
 
             if event.key == pygame.K_RIGHT:
                 personaje.camina_derecha = False
+        
+        
+        for c in inventario.cuadros.keys():
+            if inventario.cuadros[c].collidepoint(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]):
+                cuadro_x_labo = c
+
+                        
+                    
 
 
     personaje.actualizar()
     pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
     Interfaz(personaje.barras_vitalidad).actualizar_barras()
-    inventario.inventarios()
-    debug(info= inventario.rectas, pantalla=pantalla)
+    inventario.actualizar()
+    debug(info= cuadro_x_labo, pantalla=pantalla)
     pygame.display.flip()
     pygame.time.Clock().tick(60)
