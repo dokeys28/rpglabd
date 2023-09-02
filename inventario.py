@@ -2,6 +2,7 @@ import pygame
 
 from constantes import *
 
+
 class Inventario:
     def __init__(self):
         self.posiciones = []
@@ -27,7 +28,8 @@ class Inventario:
         for i, xcuadro in enumerate(self.rectas):
             self.cuadros[f'cuadro {i + 1}'] = xcuadro
             
-    def actualizar(self):
+    def actualizar(self, lista_de_items):
+
         self.pantalla.blit(self.fondo,(0,0))
         for fil in range(1,5):
             n = 0
@@ -40,3 +42,5 @@ class Inventario:
                                   TAMANO_CUADROS_INVENTARIO[1]))
                 n += TAMANO_CUADROS_INVENTARIO[0]//6
         
+        for item in lista_de_items:
+            item.actualizar(self)

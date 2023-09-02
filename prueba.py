@@ -3,7 +3,10 @@ from constantes import *
 from debug import debug
 from interfaz import Interfaz
 from inventario import Inventario
+from item import lista_de_items
 from personaje import Personaje
+
+
 
 
                     
@@ -15,6 +18,9 @@ mapa = pygame.image.load('./imagenes/128x128/Tile/Tile_20-128x128.png')
 inventario = Inventario()
 lis_mapa = []
 cuadro_x_labo = ''
+item_pisado = ''
+item_suelto = ''
+
 for col in range(6):
     for fil in range(10):    
         lis_mapa.append((mapa,(fil*128,col*128)))
@@ -72,14 +78,20 @@ while True:
             if inventario.cuadros[c].collidepoint(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]):
                 cuadro_x_labo = c
 
-                        
-                    
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            item_pisado = cuadro_x_labo
+            
+        if event.type == pygame.MOUSEBUTTONUP:
+            item_suelto = cuadro_x_labo
+            for item in lista_de_items:
+                if item.cuadro == item_pisado:
+                    item.cuadro = item_suelto
 
 
     personaje.actualizar()
     pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
     Interfaz(personaje.barras_vitalidad).actualizar_barras()
-    inventario.actualizar()
-    debug(info= cuadro_x_labo, pantalla=pantalla)
+    inventario.actualizar(lista_de_items)
+    debug(pantalla=pantalla)
     pygame.display.flip()
     pygame.time.Clock().tick(60)
