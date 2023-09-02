@@ -2,6 +2,7 @@ import pygame
 from constantes import *
 from debug import debug
 from interfaz import Interfaz
+from inventario import Inventario
 from personaje import Personaje
 
 
@@ -11,7 +12,7 @@ pantalla = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
 pygame.display.set_caption('PRUEBAS RPG')
 personaje = Personaje()
 mapa = pygame.image.load('./imagenes/128x128/Tile/Tile_20-128x128.png')
-
+inventario = Inventario()
 lis_mapa = []
 for col in range(6):
     for fil in range(10):    
@@ -69,6 +70,7 @@ while True:
     personaje.actualizar()
     pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
     Interfaz(personaje.barras_vitalidad).actualizar_barras()
-    debug(pantalla)
+    inventario.inventarios()
+    debug(info= inventario.rectas, pantalla=pantalla)
     pygame.display.flip()
     pygame.time.Clock().tick(60)
