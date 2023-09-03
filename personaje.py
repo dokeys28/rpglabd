@@ -74,8 +74,51 @@ class Personaje(pygame.sprite.Sprite):
             self.cansado = False
             self.frame_rate = FRAME_RATE_CAMINAR
     
+    def handler(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if self.caminando:
+                    self.corriendo = True
+                
+            if event.key == pygame.K_UP:
+                self.camina_arriba = True
+
+                
+            if event.key == pygame.K_DOWN:
+                self.camina_abajo = True
+
+
+            if event.key == pygame.K_LEFT:
+                self.camina_izquierda = True
+
+
+            if event.key == pygame.K_RIGHT:
+                self.camina_derecha = True
+
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_SPACE:
+                self.corriendo = False
+                
+            if event.key == pygame.K_UP:
+                self.camina_arriba = False
+   
+                
+            if event.key == pygame.K_DOWN:
+                self.camina_abajo = False
+
+
+            if event.key == pygame.K_LEFT:
+                self.camina_izquierda = False
+
+
+            if event.key == pygame.K_RIGHT:
+                self.camina_derecha = False
+    
+    
     #actualizaciones
-    def actualizar(self):
+    def actualizar(self, evento):
+        self.handler(evento)
         self.actualizar_posicion()
         self.imagen.actualizar()
         self.actualizar_estados()
