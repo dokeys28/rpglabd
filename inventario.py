@@ -13,6 +13,9 @@ class Inventario:
         self.fondo.fill(COLOR_FONDO_INVENTARIO)
         self.visible = False
         self.guardar()
+        self.item_pisado = None
+        self.item_suelto = None
+        self.cuadro_x_labo = None
     
     def guardar(self):
         for fil in range(1,5):
@@ -30,22 +33,21 @@ class Inventario:
             self.cuadros[f'cuadro {i + 1}'] = xcuadro
             
     def handler(self, event, lista_de_items):
-        print('Probando')
         for c in self.cuadros.keys():
             if self.cuadros[c].collidepoint(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]):
-                cuadro_x_labo = c
+                self.cuadro_x_labo = c
                 #mostrar descripcion del item
         
         if event.type == pygame.MOUSEBUTTONDOWN:
-            item_pisado = cuadro_x_labo
+            self.item_pisado = self.cuadro_x_labo
 
             
         if event.type == pygame.MOUSEBUTTONUP:
-            item_suelto = cuadro_x_labo
+            self.item_suelto = self.cuadro_x_labo
             for item in lista_de_items:
-                if item.cuadro == item_pisado:
-                    item.cuadro = item_suelto
-                item.actualizar(self)  
+                if item.cuadro == self.item_pisado:
+                    item.cuadro = self.item_suelto
+                item.actualizar(self)
 
 
     def actualizar(self, evento, lista_de_items):
@@ -60,6 +62,7 @@ class Inventario:
                                   TAMANO_CUADROS_INVENTARIO[0],
                                   TAMANO_CUADROS_INVENTARIO[1]))
                 n += TAMANO_CUADROS_INVENTARIO[0]//6       
-        
         if self.visible:
+            for item in lista_de_items:
+                item.actualizar(self)   
             self.handler(evento, lista_de_items)

@@ -16,9 +16,6 @@ personaje = Personaje()
 mapa = pygame.image.load('./imagenes/128x128/Tile/Tile_20-128x128.png')
 inventario = Inventario()
 lis_mapa = []
-cuadro_x_labo = ''
-item_pisado = ''
-item_suelto = ''
 handler = Handler()
 
 for col in range(6):
