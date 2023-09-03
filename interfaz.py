@@ -1,14 +1,15 @@
 import pygame
 from constantes import *
+from inventario import Inventario
 
 class Interfaz:
-    def __init__(self, barras: list, inventario, items: list):
+    def __init__(self, barras: list, items: list):
         self.barras = barras
-        self.inventario = inventario
+        self.inventario = Inventario()
         self.items = items
         self.evento = None
         self.pantalla = pygame.display.get_surface()
-      
+        
     
     def actualizar_barras(self):
         for barra in self.barras:
@@ -16,7 +17,8 @@ class Interfaz:
             
     def actualizar(self, evento):
         self.actualizar_barras()
-        self.inventario.actualizar(evento, self.items)
+        if self.inventario.visible:
+            self.inventario.actualizar(evento, self.items) 
         
 
 

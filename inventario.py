@@ -62,7 +62,6 @@ class Inventario:
                                   TAMANO_CUADROS_INVENTARIO[0],
                                   TAMANO_CUADROS_INVENTARIO[1]))
                 n += TAMANO_CUADROS_INVENTARIO[0]//6       
-        if self.visible:
-            for item in lista_de_items:
-                item.actualizar(self)   
-            self.handler(evento, lista_de_items)
+        for item in lista_de_items:
+            item.actualizar(self)   
+        self.handler(evento, lista_de_items)

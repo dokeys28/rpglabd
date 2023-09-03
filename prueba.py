@@ -14,7 +14,6 @@ pantalla = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
 pygame.display.set_caption('PRUEBAS RPG')
 personaje = Personaje()
 mapa = pygame.image.load('./imagenes/128x128/Tile/Tile_20-128x128.png')
-inventario = Inventario()
 lis_mapa = []
 handler = Handler()
 
@@ -32,10 +31,10 @@ while True:
             exit()
 
 
-    inventario.visible = True
+
     personaje.actualizar(handler.obtener_evento())
     pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
-    Interfaz(personaje.barras_vitalidad, inventario, lista_de_items).actualizar(handler.obtener_evento())
+    Interfaz(personaje.barras_vitalidad, lista_de_items).actualizar(handler.obtener_evento())
     debug(pantalla=pantalla)
     pygame.display.flip()
     pygame.time.Clock().tick(60)

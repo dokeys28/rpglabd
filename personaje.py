@@ -74,6 +74,8 @@ class Personaje(pygame.sprite.Sprite):
             self.cansado = False
             self.frame_rate = FRAME_RATE_CAMINAR
     
+
+    #GUAMARMELA CON ESTO    
     def handler(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
@@ -116,12 +118,6 @@ class Personaje(pygame.sprite.Sprite):
                 self.camina_derecha = False
     
     
-    #actualizaciones
-    def actualizar(self, evento):
-        self.handler(evento)
-        self.actualizar_posicion()
-        self.imagen.actualizar()
-        self.actualizar_estados()
         
     
     def actualizar_estados(self):
@@ -230,4 +226,10 @@ class Personaje(pygame.sprite.Sprite):
     def obtener_sprite(self):
         return self.imagen.sprite
     
-
+    #actualizaciones
+    def actualizar(self, evento):
+        self.handler(evento)
+        print(evento)
+        self.actualizar_posicion()
+        self.imagen.actualizar()
+        self.actualizar_estados()
