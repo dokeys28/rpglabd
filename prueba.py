@@ -1,12 +1,11 @@
 import pygame
 from constantes import *
 from debug import debug
+from handler import Handler
 from interfaz import Interfaz
 from inventario import Inventario
 from item import lista_de_items
 from personaje import Personaje
-
-
 
 
                     
@@ -20,6 +19,7 @@ lis_mapa = []
 cuadro_x_labo = ''
 item_pisado = ''
 item_suelto = ''
+handler = Handler()
 
 for col in range(6):
     for fil in range(10):    
@@ -29,6 +29,7 @@ while True:
     pantalla.fill((255,255,255))
     pantalla.blits([x for x in lis_mapa])
     for event in pygame.event.get():
+        handler.actualizar(event)
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
@@ -72,26 +73,13 @@ while True:
 
             if event.key == pygame.K_RIGHT:
                 personaje.camina_derecha = False
-        
-        
-        for c in inventario.cuadros.keys():
-            if inventario.cuadros[c].collidepoint(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]):
-                cuadro_x_labo = c
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            item_pisado = cuadro_x_labo
-            
-        if event.type == pygame.MOUSEBUTTONUP:
-            item_suelto = cuadro_x_labo
-            for item in lista_de_items:
-                if item.cuadro == item_pisado:
-                    item.cuadro = item_suelto
 
 
+
+    inventario.visible = True
     personaje.actualizar()
     pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
-    Interfaz(personaje.barras_vitalidad).actualizar_barras()
-    inventario.actualizar(lista_de_items)
+    Interfaz(personaje.barras_vitalidad, inventario, lista_de_items).actualizar(handler.obtener_evento())
     debug(pantalla=pantalla)
     pygame.display.flip()
     pygame.time.Clock().tick(60)
