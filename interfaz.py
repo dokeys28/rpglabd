@@ -10,7 +10,8 @@ class Interfaz:
         self.items = self.juego.lista_de_items
         self.evento = None
         self.pantalla = self.juego.pantalla
-        self.inventario.visible = True
+        #hay que poner todas las cosas visibles e invisibles aqui
+        self.inventario.visible = False
     
     def actualizar_barras(self):
         for barra in self.barras:
@@ -18,6 +19,12 @@ class Interfaz:
             
     def actualizar(self):
         self.actualizar_barras()
+        if self.juego.handler.control.i_presionada and not self.inventario.visible:
+            self.inventario.visible = True
+            self.juego.handler.control.i_presionada = False
+        elif self.juego.handler.control.i_presionada and self.inventario.visible:
+            self.inventario.visible = False
+            self.juego.handler.control.i_presionada = False  
         if self.inventario.visible:
             self.inventario.actualizar() 
         
