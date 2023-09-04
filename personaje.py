@@ -5,7 +5,8 @@ from vitalidad import Energia, Vida
 from imagen import Imagen
 
 class Personaje(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, juego):
+        self.juego = juego
         #implementar elegir nombre en configuraciones
         self.nombre: str
         #definir clase si es mago, melee, ranged
@@ -83,20 +84,20 @@ class Personaje(pygame.sprite.Sprite):
         if self.energia.cantidad < ENERGIA_MAXIMA:
             self.regenerandose = True
         
-    def actualizar_controles(self, control):
-        if control.arriba_presionada:
+    def actualizar_controles(self):
+        if self.juego.handler.control.arriba_presionada:
             self.camina_arriba = True
         else:
             self.camina_arriba = False
-        if control.abajo_presionada:
+        if self.juego.handler.control.abajo_presionada:
             self.camina_abajo = True
         else:
             self.camina_abajo = False
-        if control.izquierda_presionada:
+        if self.juego.handler.control.izquierda_presionada:
             self.camina_izquierda = True
         else:
             self.camina_izquierda = False
-        if control.derecha_presionada:
+        if self.juego.handler.control.derecha_presionada:
             self.camina_derecha = True
         else:
             self.camina_derecha = False
@@ -149,6 +150,7 @@ class Personaje(pygame.sprite.Sprite):
     #actualiza posicion    
     def actualizar_posicion(self):
         self.posicion += (self.direccion + self.velocidad )* K_VELOCIDAD
+        self.juego.pantalla.blit(self.obtener_sprite(),self.posicion)
     
            
     #direccion
@@ -196,8 +198,8 @@ class Personaje(pygame.sprite.Sprite):
         return self.imagen.sprite
     
     #actualizaciones
-    def actualizar(self, control):
-        self.actualizar_controles(control)
+    def actualizar(self):
+        self.actualizar_controles()
         self.actualizar_posicion()
         self.imagen.actualizar()
         self.actualizar_estados()

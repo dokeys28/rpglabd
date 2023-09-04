@@ -4,10 +4,11 @@ from constantes import *
 
 
 class Inventario:
-    def __init__(self):
+    def __init__(self, juego):
         self.posiciones = []
         self.rectas = []
-        self.pantalla = pygame.display.get_surface()
+        self.juego = juego
+        self.pantalla = self.juego.pantalla
         self.cuadros = dict()
         self.fondo = pygame.Surface((ANCHO_PANTALLA, ALTO_PANTALLA))
         self.fondo.fill(COLOR_FONDO_INVENTARIO)
@@ -16,6 +17,7 @@ class Inventario:
         self.item_pisado = None
         self.item_suelto = None
         self.cuadro_x_labo = None
+        self.click = False
     
     def guardar(self):
         for fil in range(1,5):
@@ -32,25 +34,31 @@ class Inventario:
         for i, xcuadro in enumerate(self.rectas):
             self.cuadros[f'cuadro {i + 1}'] = xcuadro
             
-    def handler(self, event, lista_de_items):
+    def handler(self):
         for c in self.cuadros.keys():
             if self.cuadros[c].collidepoint(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]):
                 self.cuadro_x_labo = c
                 #mostrar descripcion del item
+                for item in self.juego.lista_de_items:
+                    if item.cuadro == self.cuadro_x_labo:
+                        self.pantalla.blit(item.descripcion, (64,400))
         
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            self.item_pisado = self.cuadro_x_labo
+        if not self.click:
+            if self.juego.handler.control.mouse_presionado:
+                self.click = True
+                self.item_pisado = self.cuadro_x_labo
+        
+        else:
+            if not self.juego.handler.control.mouse_presionado:
+                self.click = False
+                self.item_suelto = self.cuadro_x_labo
+                for item in self.juego.lista_de_items:
+                    if item.cuadro == self.item_pisado:
+                        item.cuadro = self.item_suelto
+                    item.actualizar(self)
 
-            
-        if event.type == pygame.MOUSEBUTTONUP:
-            self.item_suelto = self.cuadro_x_labo
-            for item in lista_de_items:
-                if item.cuadro == self.item_pisado:
-                    item.cuadro = self.item_suelto
-                item.actualizar(self)
 
-
-    def actualizar(self, evento, lista_de_items):
+    def actualizar(self):
         self.pantalla.blit(self.fondo,(0,0))
         for fil in range(1,5):
             n = 0
@@ -62,6 +70,6 @@ class Inventario:
                                   TAMANO_CUADROS_INVENTARIO[0],
                                   TAMANO_CUADROS_INVENTARIO[1]))
                 n += TAMANO_CUADROS_INVENTARIO[0]//6       
-        for item in lista_de_items:
+        for item in self.juego.lista_de_items:
             item.actualizar(self)   
-        self.handler(evento, lista_de_items)
+        self.handler()
