@@ -34,5 +34,14 @@ POSICION_BARRA_ENERGIA = ALTO_PANTALLA - TAMANO_BARRAS - MARGEN
 COLOR_FONDO_INVENTARIO = (77,77,255)
 COLOR_CUADROS_INVENTARIO = (50,50,255)
 TAMANO_CUADROS_INVENTARIO = (64,64)
+
+ESTRUCTURA_INVENTARIO = [['x','x','x','x','x','x','x']] * 4
+    
+ESTRUCTURA_EQUIPAMIENTO = [
+    ['','x',''],
+    ['','x',''],
+    ['x','x','x'],
+    ['x','x','x'],
+    ]
 if __name__ == "__main__":
     pass

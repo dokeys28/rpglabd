@@ -6,6 +6,7 @@ from handler import Handler
 from interfaz import Interfaz
 from item import Item
 from personaje import Personaje
+from equipamiento import Equipamiento
 
 class Juego:  
     def __init__(self):                               
@@ -24,6 +25,7 @@ class Juego:
         self.handler = Handler(self)
         self.interfaz = Interfaz(self)
         self.updater = Updater(self)
+        self.equipamiento = Equipamiento(self)
         self._modo_debug = False
         #Creando mapa
         for col in range(6):
@@ -35,6 +37,7 @@ class Juego:
             self.pantalla.blits([x for x in self.lis_mapa])
             #main loop
             self.updater.actualizar_todo()
+            self.equipamiento.actualizar()
             #debug
             if self._modo_debug:
                 debug(info= self.personaje.camina_arriba, pantalla=self.pantalla)
