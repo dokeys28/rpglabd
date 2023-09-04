@@ -7,7 +7,14 @@ from inventario import Inventario
 from item import lista_de_items
 from personaje import Personaje
 
+class Controles:
+    def __init__(self) -> None:
+        self.derecha_presionada = False
+        self.izquierda_presionada = False
+        self.arriba_presionada = False
+        self.abajo_presionada = False
 
+control = Controles()
                     
 pygame.init()
 pantalla = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
@@ -29,12 +36,30 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                control.arriba_presionada = True
+            if event.key == pygame.K_DOWN:
+                control.abajo_presionada = True
+            if event.key == pygame.K_LEFT:
+                control.izquierda_presionada = True
+            if event.key == pygame.K_RIGHT:
+                control.derecha_presionada = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                control.arriba_presionada = False
+            if event.key == pygame.K_DOWN:
+                control.abajo_presionada = False
+            if event.key == pygame.K_LEFT:
+                control.izquierda_presionada = False
+            if event.key == pygame.K_RIGHT:
+                control.derecha_presionada = False
+                
 
 
-
-    personaje.actualizar(handler.obtener_evento())
+    personaje.actualizar(control)
     pantalla.blit(personaje.obtener_sprite(),personaje.posicion)
     Interfaz(personaje.barras_vitalidad, lista_de_items).actualizar(handler.obtener_evento())
-    debug(pantalla=pantalla)
+    debug(info= personaje.camina_arriba, pantalla=pantalla)
     pygame.display.flip()
     pygame.time.Clock().tick(60)

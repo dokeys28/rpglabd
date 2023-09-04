@@ -73,53 +73,8 @@ class Personaje(pygame.sprite.Sprite):
         if self.energia.cantidad > 50:
             self.cansado = False
             self.frame_rate = FRAME_RATE_CAMINAR
-    
-
-    #GUAMARMELA CON ESTO    
-    def handler(self, event):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                if self.caminando:
-                    self.corriendo = True
-                
-            if event.key == pygame.K_UP:
-                self.camina_arriba = True
-
-                
-            if event.key == pygame.K_DOWN:
-                self.camina_abajo = True
 
 
-            if event.key == pygame.K_LEFT:
-                self.camina_izquierda = True
-
-
-            if event.key == pygame.K_RIGHT:
-                self.camina_derecha = True
-
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                self.corriendo = False
-                
-            if event.key == pygame.K_UP:
-                self.camina_arriba = False
-   
-                
-            if event.key == pygame.K_DOWN:
-                self.camina_abajo = False
-
-
-            if event.key == pygame.K_LEFT:
-                self.camina_izquierda = False
-
-
-            if event.key == pygame.K_RIGHT:
-                self.camina_derecha = False
-    
-    
-        
-    
     def actualizar_estados(self):
         if self.energia.cantidad <= 1:
             self.cansado = True
@@ -128,22 +83,36 @@ class Personaje(pygame.sprite.Sprite):
         if self.energia.cantidad < ENERGIA_MAXIMA:
             self.regenerandose = True
         
+    def actualizar_controles(self, control):
+        if control.arriba_presionada:
+            self.camina_arriba = True
+        else:
+            self.camina_arriba = False
+        if control.abajo_presionada:
+            self.camina_abajo = True
+        else:
+            self.camina_abajo = False
+        if control.izquierda_presionada:
+            self.camina_izquierda = True
+        else:
+            self.camina_izquierda = False
+        if control.derecha_presionada:
+            self.camina_derecha = True
+        else:
+            self.camina_derecha = False
+        
         
         #caminando
         if self.camina_arriba:
-            self.caminando = True
             self.arriba()
             self.mover()
         elif self.camina_abajo:
-            self.caminando = True
             self.mover()
             self.abajo()
         elif self.camina_izquierda:
-            self.caminando = True
             self.mover()
             self.izquierda()
         elif self.camina_derecha:
-            self.caminando = True
             self.mover()
             self.derecha()
         else:
@@ -227,9 +196,9 @@ class Personaje(pygame.sprite.Sprite):
         return self.imagen.sprite
     
     #actualizaciones
-    def actualizar(self, evento):
-        self.handler(evento)
-        print(evento)
+    def actualizar(self, control):
+        self.actualizar_controles(control)
         self.actualizar_posicion()
         self.imagen.actualizar()
         self.actualizar_estados()
+
