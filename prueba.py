@@ -15,12 +15,6 @@ class Juego:
         pygame.display.set_caption('PRUEBAS RPG')
         self.lis_mapa = []
         self.mapa = pygame.image.load('./imagenes/128x128/Tile/Tile_20-128x128.png')
-        self.lista_de_items = [Item('arco.png',
-                                    'cuadro 5',
-                                    'Soy un arco 1'),
-                               Item('arco.png',
-                                    'cuadro 18',
-                                    'Soy un arco 2')]
         self.personaje = Personaje(self)
         self.handler = Handler(self)
         self.interfaz = Interfaz(self)
@@ -40,7 +34,7 @@ class Juego:
             self.equipamiento.actualizar()
             #debug
             if self._modo_debug:
-                debug(info= self.personaje.camina_arriba, pantalla=self.pantalla)
+                debug(info= self.interfaz.inventario.items, pantalla=self.pantalla)
             pygame.display.flip()
             pygame.time.Clock().tick(60)
 

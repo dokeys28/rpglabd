@@ -7,7 +7,7 @@ class Interfaz:
         self.juego = juego
         self.barras = self.juego.personaje.barras_vitalidad
         self.inventario = Inventario(self.juego)
-        self.items = self.juego.lista_de_items
+        self.items = self.inventario.lista_de_items
         self.evento = None
         self.pantalla = self.juego.pantalla
         #hay que poner todas las cosas visibles e invisibles aqui

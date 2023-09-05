@@ -1,6 +1,7 @@
 import pygame
 
 from constantes import *
+from item import Item
 
 
 class Inventario:
@@ -18,7 +19,21 @@ class Inventario:
         self.item_suelto = None
         self.cuadro_x_labo = None
         self.click = False
-    
+        self.lista_de_items = [Item('arco.png',
+                                    'cuadro 5',
+                                    'Soy un arco 1'),
+                               Item('arco.png',
+                                    'cuadro 18',
+                                    'Soy un arco 2')]
+        self.items = [''] * TAMANO_ESPACIOS_INVENTARIO
+
+
+    def actualizar_items_propios(self):
+        self.items = [''] * TAMANO_ESPACIOS_INVENTARIO
+        #actualizando items propios del inventario
+        for item in self.lista_de_items:
+            self.items[int(item.cuadro.split('cuadro ')[1])- 1] = item
+        
     def guardar(self):
         for fil in range(1,5):
             n = 0
@@ -39,7 +54,7 @@ class Inventario:
             if self.cuadros[c].collidepoint(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]):
                 self.cuadro_x_labo = c
                 #mostrar descripcion del item
-                for item in self.juego.lista_de_items:
+                for item in self.lista_de_items:
                     if item.cuadro == self.cuadro_x_labo:
                         self.pantalla.blit(item.descripcion, (64,400))
         
@@ -52,8 +67,8 @@ class Inventario:
             if not self.juego.handler.control.mouse_presionado:
                 self.click = False
                 self.item_suelto = self.cuadro_x_labo
-                for item in self.juego.lista_de_items:
-                    if item.cuadro == self.item_pisado:
+                for item in self.lista_de_items:
+                    if item.cuadro == self.item_pisado and self.items[int(self.item_suelto.split('cuadro ')[1])-1] == '':
                         item.cuadro = self.item_suelto
                     item.actualizar(self)
 
@@ -70,6 +85,7 @@ class Inventario:
                                   TAMANO_CUADROS_INVENTARIO[0],
                                   TAMANO_CUADROS_INVENTARIO[1]))
                 n += TAMANO_CUADROS_INVENTARIO[0]//6       
-        for item in self.juego.lista_de_items:
+        for item in self.lista_de_items:
             item.actualizar(self)   
         self.handler()
+        self.actualizar_items_propios()

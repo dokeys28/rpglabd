@@ -101,6 +101,10 @@ class Personaje(pygame.sprite.Sprite):
             self.camina_derecha = True
         else:
             self.camina_derecha = False
+        if self.juego.handler.control.espacio_presionada:
+            self.corriendo = True
+        else:
+            self.corriendo = False
         
         
         #caminando
@@ -123,8 +127,8 @@ class Personaje(pygame.sprite.Sprite):
                 
         #corriendo
         if self.corriendo:
-            self.correr()
             if self.energia.cantidad > 1 and not self.cansado:
+                self.correr()
                 self.gastando_energia = True
             else:
                 self.corriendo = False

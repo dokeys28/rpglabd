@@ -36,6 +36,8 @@ COLOR_CUADROS_INVENTARIO = (50,50,255)
 TAMANO_CUADROS_INVENTARIO = (64,64)
 
 ESTRUCTURA_INVENTARIO = [['x','x','x','x','x','x','x']] * 4
+
+
     
 ESTRUCTURA_EQUIPAMIENTO = [
     ['','x',''],
@@ -43,5 +45,16 @@ ESTRUCTURA_EQUIPAMIENTO = [
     ['x','x','x'],
     ['x','x','x'],
     ]
+
+def obtener_tamano_estructura(estructura: list):
+    contador = 0
+    for lista in estructura:
+        for elemento in lista:
+            if elemento == 'x':
+                contador += 1
+    return contador
+
+TAMANO_ESPACIOS_INVENTARIO = obtener_tamano_estructura(ESTRUCTURA_INVENTARIO)
+TAMANO_ESPACIOS_EQUIPAMIENTO= obtener_tamano_estructura(ESTRUCTURA_EQUIPAMIENTO)
 if __name__ == "__main__":
     pass
