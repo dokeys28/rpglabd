@@ -1,5 +1,6 @@
 import pygame
 from constantes import *
+from equipamiento import Equipamiento
 from inventario import Inventario
 
 class Interfaz:
@@ -7,6 +8,7 @@ class Interfaz:
         self.juego = juego
         self.barras = self.juego.personaje.barras_vitalidad
         self.inventario = Inventario(self.juego)
+        self.equipamiento = Equipamiento(self.juego)
         self.items = self.inventario.lista_de_items
         self.evento = None
         self.pantalla = self.juego.pantalla
@@ -21,12 +23,19 @@ class Interfaz:
         self.actualizar_barras()
         if self.juego.handler.control.i_presionada and not self.inventario.visible:
             self.inventario.visible = True
+            if not self.equipamiento.visible:
+                self.equipamiento.visible = True
             self.juego.handler.control.i_presionada = False
         elif self.juego.handler.control.i_presionada and self.inventario.visible:
             self.inventario.visible = False
+            self.equipamiento.visible = False
             self.juego.handler.control.i_presionada = False  
+        
+        #Actualiza si son visibles
         if self.inventario.visible:
-            self.inventario.actualizar() 
+            self.inventario.actualizar()
+        if self.equipamiento.visible:
+            self.equipamiento.actualizar()
         
 
 

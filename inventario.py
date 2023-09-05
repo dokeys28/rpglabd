@@ -14,7 +14,8 @@ class Inventario:
         self.fondo = pygame.Surface((ANCHO_PANTALLA, ALTO_PANTALLA))
         self.fondo.fill(COLOR_FONDO_INVENTARIO)
         self.visible = False
-        self.guardar()
+        self._loop(self.guardar)
+        self.guardar_rectas()
         self.item_pisado = None
         self.item_suelto = None
         self.cuadro_x_labo = None
@@ -34,18 +35,31 @@ class Inventario:
         for item in self.lista_de_items:
             self.items[int(item.cuadro.split('cuadro ')[1])- 1] = item
         
-    def guardar(self):
-        for fil in range(1,5):
-            n = 0
-            for col in range(1,8):
-                self.posiciones.append((col * TAMANO_CUADROS_INVENTARIO[0] + n ,
-                                        fil * TAMANO_CUADROS_INVENTARIO[1] + fil* 10))
-                n += TAMANO_CUADROS_INVENTARIO[0]//6
+    
+    def _loop(self, func):
+        posicion_inicial = (0,64)
+        #self.dibujar_bordes(posicion_inicial)
+        indice_fila = posicion_inicial[1]
+
+        for fil in ESTRUCTURA_INVENTARIO:
+            indice_columna = posicion_inicial[0]
+            for col in fil:
+                if col == 'x':
+                    func(indice_columna, indice_fila)
+                indice_columna += TAMANO_CUADROS_INVENTARIO[0]
+            indice_fila += TAMANO_CUADROS_INVENTARIO[1]
+
+    def guardar(self, indice_columna, indice_fila):
+        self.posiciones.append((indice_columna + BORDE_INVENTARIO // 2,
+                                indice_fila + BORDE_INVENTARIO // 2))
+
+
+    def guardar_rectas(self):
         for cuadro in self.posiciones:
             self.rectas.append(pygame.Rect(cuadro[0],
                                            cuadro[1],
-                                           TAMANO_CUADROS_INVENTARIO[0],
-                                           TAMANO_CUADROS_INVENTARIO[1]))
+                                           TAMANO_CUADROS_INVENTARIO[0] - BORDE_INVENTARIO,
+                                           TAMANO_CUADROS_INVENTARIO[1] - BORDE_INVENTARIO))
         for i, xcuadro in enumerate(self.rectas):
             self.cuadros[f'cuadro {i + 1}'] = xcuadro
             
@@ -75,17 +89,17 @@ class Inventario:
 
     def actualizar(self):
         self.pantalla.blit(self.fondo,(0,0))
-        for fil in range(1,5):
-            n = 0
-            for col in range(1,8):
-                pygame.draw.rect(self.pantalla,
-                                 COLOR_CUADROS_INVENTARIO,
-                                 (col * TAMANO_CUADROS_INVENTARIO[0] + n,
-                                  fil * TAMANO_CUADROS_INVENTARIO[1] + fil* 10,
-                                  TAMANO_CUADROS_INVENTARIO[0],
-                                  TAMANO_CUADROS_INVENTARIO[1]))
-                n += TAMANO_CUADROS_INVENTARIO[0]//6       
+        self._loop(self.dibujar)
         for item in self.lista_de_items:
             item.actualizar(self)   
         self.handler()
         self.actualizar_items_propios()
+
+    def dibujar(self, indice_columna, indice_fila):
+        pygame.draw.rect(self.pantalla,
+                            COLOR_CUADROS_INVENTARIO,
+                            (indice_columna + BORDE_INVENTARIO // 2,
+                        indice_fila + BORDE_INVENTARIO // 2,
+                            TAMANO_CUADROS_INVENTARIO[0] - BORDE_INVENTARIO,
+                            TAMANO_CUADROS_INVENTARIO[1] - BORDE_EQUIPAMIENTO))
+
