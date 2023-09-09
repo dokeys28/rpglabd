@@ -36,7 +36,9 @@ class Interfaz:
             self.inventario.actualizar()
         if self.equipamiento.visible:
             self.equipamiento.actualizar()
-        
+        if self.inventario.visible:
+            for item in self.items:
+                item.actualizar(self)
 
 
 class Barra:

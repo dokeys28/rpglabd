@@ -20,12 +20,12 @@ class Inventario:
         self.item_suelto = None
         self.cuadro_x_labo = None
         self.click = False
-        self.lista_de_items = [Item('arco.png',
+        self.lista_de_items = [Item('espada.png',
                                     'cuadro 5',
-                                    'Soy un arco 1'),
-                               Item('arco.png',
+                                    'Soy una espada',Slots_equipamiento.MANO_DERECHA.value),
+                               Item('escudo.png',
                                     'cuadro 18',
-                                    'Soy un arco 2')]
+                                    'Soy un escudo',Slots_equipamiento.MANO_IZQUIERDA.value)]
         self.items = [''] * TAMANO_ESPACIOS_INVENTARIO
 
 
@@ -33,7 +33,8 @@ class Inventario:
         self.items = [''] * TAMANO_ESPACIOS_INVENTARIO
         #actualizando items propios del inventario
         for item in self.lista_de_items:
-            self.items[int(item.cuadro.split('cuadro ')[1])- 1] = item
+            if item.cuadro != '':
+                self.items[int(item.cuadro.split('cuadro ')[1])- 1] = item
         
     
     def _loop(self, func):
@@ -69,13 +70,22 @@ class Inventario:
                 self.cuadro_x_labo = c
                 #mostrar descripcion del item
                 for item in self.lista_de_items:
-                    if item.cuadro == self.cuadro_x_labo:
-                        self.pantalla.blit(item.descripcion, (64,400))
+                    if not item.equipar:
+                        if item.cuadro == self.cuadro_x_labo:
+                            self.pantalla.blit(item.descripcion, (64,400))
         
         if not self.click:
             if self.juego.handler.control.mouse_presionado:
                 self.click = True
                 self.item_pisado = self.cuadro_x_labo
+
+                if self.juego.handler.control.mouse_derecho_presionado:
+                    for item in self.juego.interfaz.items:
+                        if item.cuadro == self.item_pisado:
+                            #implementar otro tipo de logica
+                            #item.cuadro = ''
+                            item.equipar = True
+                            item.actualizar(self.juego.interfaz)
         
         else:
             if not self.juego.handler.control.mouse_presionado:
@@ -84,14 +94,14 @@ class Inventario:
                 for item in self.lista_de_items:
                     if item.cuadro == self.item_pisado and self.items[int(self.item_suelto.split('cuadro ')[1])-1] == '':
                         item.cuadro = self.item_suelto
-                    item.actualizar(self)
+                    item.actualizar(self.juego.interfaz)
 
 
     def actualizar(self):
         self.pantalla.blit(self.fondo,(0,0))
         self._loop(self.dibujar)
         for item in self.lista_de_items:
-            item.actualizar(self)   
+            item.actualizar(self.juego.interfaz)   
         self.handler()
         self.actualizar_items_propios()
 

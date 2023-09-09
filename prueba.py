@@ -33,7 +33,7 @@ class Juego:
 
             #debug
             if self._modo_debug:
-                debug(info= self.interfaz.inventario.items, pantalla=self.pantalla)
+                debug(info= '', pantalla=self.pantalla)
             pygame.display.flip()
             pygame.time.Clock().tick(60)
 

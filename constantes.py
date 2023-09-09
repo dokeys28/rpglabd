@@ -1,4 +1,4 @@
-import os
+from enum import Enum
 
 ANCHO_PANTALLA = 1280
 ALTO_PANTALLA = 768
@@ -57,5 +57,16 @@ def obtener_tamano_estructura(estructura: list):
 
 TAMANO_ESPACIOS_INVENTARIO = obtener_tamano_estructura(ESTRUCTURA_INVENTARIO)
 TAMANO_ESPACIOS_EQUIPAMIENTO= obtener_tamano_estructura(ESTRUCTURA_EQUIPAMIENTO)
+
+class Slots_equipamiento(Enum):
+    CABEZA = 'rect0'
+    CUELLO = 'rect1'
+    MANO_DERECHA = 'rect2'
+    TORSO = 'rect3'
+    MANO_IZQUIERDA = 'rect4'
+    ACCESORIO_1 = 'rect5'
+    PIERNAS = 'rect6'
+    ACCESORIO_2 = 'rect7'
+    
 if __name__ == "__main__":
     pass

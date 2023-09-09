@@ -7,6 +7,7 @@ class Controles:
         self.arriba_presionada = False
         self.abajo_presionada = False
         self.mouse_presionado = False
+        self.mouse_derecho_presionado = False
         self.i_presionada = False
         self.espacio_presionada = False
 
@@ -56,6 +57,9 @@ class Handler:
             #MOUSE
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.control.mouse_presionado = True
-                       
+                if pygame.mouse.get_pressed()[2]:
+                    self.control.mouse_derecho_presionado = True
             if event.type == pygame.MOUSEBUTTONUP:
                 self.control.mouse_presionado = False
+                self.control.mouse_derecho_presionado = False
+            
