@@ -4,9 +4,8 @@ from constantes import *
 from debug import debug
 from handler import Handler
 from interfaz import Interfaz
-from item import Item
 from personaje import Personaje
-from equipamiento import Equipamiento
+
 
 class Juego:  
     def __init__(self):                               
@@ -19,7 +18,7 @@ class Juego:
         self.handler = Handler(self)
         self.interfaz = Interfaz(self)
         self.updater = Updater(self)
-        self._modo_debug = False
+        self._modo_debug = True
         #Creando mapa
         for col in range(6):
             for fil in range(10):    
@@ -30,10 +29,10 @@ class Juego:
             self.pantalla.blits([x for x in self.lis_mapa])
             #main loop
             self.updater.actualizar_todo()
-
+            self.interfaz.stats.ataque.ganar_exp(15000)
             #debug
             if self._modo_debug:
-                debug(info= '', pantalla=self.pantalla)
+                debug(info= self.interfaz.stats.ataque._exp_siguiente_nivel, pantalla=self.pantalla)
             pygame.display.flip()
             pygame.time.Clock().tick(60)
 

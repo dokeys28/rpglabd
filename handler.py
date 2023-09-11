@@ -9,6 +9,7 @@ class Controles:
         self.mouse_presionado = False
         self.mouse_derecho_presionado = False
         self.i_presionada = False
+        self.s_presionada = False
         self.espacio_presionada = False
 
 
@@ -37,6 +38,8 @@ class Handler:
                     self.control.derecha_presionada = True
                 if event.key == pygame.K_i:
                     self.control.i_presionada = True
+                if event.key == pygame.K_s:
+                    self.control.s_presionada = True
                 if event.key == pygame.K_SPACE:
                     self.control.espacio_presionada = True
             
@@ -51,6 +54,8 @@ class Handler:
                     self.control.derecha_presionada = False
                 if event.key == pygame.K_i:
                     self.control.i_presionada = False
+                if event.key == pygame.K_s:
+                    self.control.s_presionada = False
                 if event.key == pygame.K_SPACE:
                     self.control.espacio_presionada = False
            

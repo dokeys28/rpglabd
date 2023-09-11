@@ -1,5 +1,8 @@
 from enum import Enum
 
+import pygame
+pygame.init()
+
 ANCHO_PANTALLA = 1280
 ALTO_PANTALLA = 768
 DIRECTORIO_IMAGENES = '/imagenes'
@@ -67,6 +70,12 @@ class Slots_equipamiento(Enum):
     ACCESORIO_1 = 'rect5'
     PIERNAS = 'rect6'
     ACCESORIO_2 = 'rect7'
-    
+
+class FUENTES(Enum):
+
+    STATS = pygame.font.Font(None,32)
+
+POTENCIA_EXPERIENCIA_MAXIMA = 3
+
 if __name__ == "__main__":
     pass
