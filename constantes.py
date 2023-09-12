@@ -75,7 +75,7 @@ class FUENTES(Enum):
 
     STATS = pygame.font.Font(None,32)
 
-POTENCIA_EXPERIENCIA_MAXIMA = 3
-
+POTENCIA_EXPERIENCIA_MAXIMA = 1.17
+NIVEL_MAXIMO = 30
 if __name__ == "__main__":
     pass

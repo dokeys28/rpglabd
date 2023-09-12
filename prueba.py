@@ -18,7 +18,7 @@ class Juego:
         self.handler = Handler(self)
         self.interfaz = Interfaz(self)
         self.updater = Updater(self)
-        self._modo_debug = True
+        self._modo_debug = False
         #Creando mapa
         for col in range(6):
             for fil in range(10):    
@@ -29,10 +29,13 @@ class Juego:
             self.pantalla.blits([x for x in self.lis_mapa])
             #main loop
             self.updater.actualizar_todo()
-            self.interfaz.stats.ataque.ganar_exp(15000)
             #debug
+            self.interfaz.stats.defensa.exp.aumentar(1)
+            self.interfaz.stats.ataque.exp.aumentar(10)
+            self.interfaz.stats.arqueria.exp.aumentar(100)
+            self.interfaz.stats.magia.exp.aumentar(1000)
             if self._modo_debug:
-                debug(info= self.interfaz.stats.ataque._exp_siguiente_nivel, pantalla=self.pantalla)
+                debug(info= '', pantalla=self.pantalla)
             pygame.display.flip()
             pygame.time.Clock().tick(60)
 
