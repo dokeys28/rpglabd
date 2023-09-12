@@ -50,6 +50,7 @@ class Interfaz:
             for item in self.items:
                 item.actualizar(self)
         if self.stats.visible:
+            self.stats.mostrar_stats_levels()    
             self.stats.mostrar_stats()    
 
 class Barra:

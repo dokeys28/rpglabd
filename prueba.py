@@ -30,9 +30,7 @@ class Juego:
             #main loop
             self.updater.actualizar_todo()
             #debug
-            self.interfaz.stats.defensa.exp.aumentar(100)
-            self.interfaz.stats.ataque.exp.aumentar(100)
-            self.interfaz.stats.magia.exp.aumentar(100)
+            self.interfaz.stats.defensa_level.exp.aumentar(100)
             self.interfaz.stats.level.total()
             if self._modo_debug:
                 debug(info= '', pantalla=self.pantalla)
