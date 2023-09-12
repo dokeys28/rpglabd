@@ -26,26 +26,20 @@ class Interfaz:
     def mostrar_inventario(self):
         if self.juego.handler.control.i_presionada and not self.inventario.visible:
             self.inventario.visible = True
+            self.stats.visible = True
             if not self.equipamiento.visible:
                 self.equipamiento.visible = True
             self.juego.handler.control.i_presionada = False
         elif self.juego.handler.control.i_presionada and self.inventario.visible:
             self.inventario.visible = False
             self.equipamiento.visible = False
+            self.stats.visible = False
             self.juego.handler.control.i_presionada = False
     
-    def mostrar_stats(self):
-        if self.juego.handler.control.s_presionada and not self.stats.visible:
-            self.stats.visible = True
-            self.juego.handler.control.s_presionada = False
-        elif self.juego.handler.control.s_presionada and self.stats.visible:
-            self.stats.visible = False
-            self.juego.handler.control.s_presionada = False  
     
     def actualizar(self):
         self.actualizar_barras()
         self.mostrar_inventario()
-        self.mostrar_stats()
         
         #Actualiza si son visibles
         if self.inventario.visible:
