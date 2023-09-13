@@ -79,7 +79,7 @@ class Stats:
         #STATS LEVELS
         self.ataque_level = StatLevel('Ataque')
         self.defensa_level = StatLevel('Defensa')
-        self.arqueria_level = StatLevel('Arqueria')
+        self.arqueria_level = StatLevel('Destreza')
         self.magia_level = StatLevel('Magia')
         self.stats_levels = [self.ataque_level, self.defensa_level, self.arqueria_level, self.magia_level]
         #TOTAL
